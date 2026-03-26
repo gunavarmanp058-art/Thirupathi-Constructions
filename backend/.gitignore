@@ -1,0 +1,9 @@
+# Backend specific
+node_modules/
+.env
+uploads/
+*.log
+tmp_*.js
+machines_output.txt
+output*.txt
+users.json

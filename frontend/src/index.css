@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Thirupathi Constructions - Professional Government Theme */
+
+@layer base {
+  :root {
+    /* Core Colors - Professional Green & White */
+    --background: 0 0% 100%;
+    --foreground: 160 10% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 160 10% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 160 10% 15%;
+
+    /* Primary - Government Green */
+    --primary: 152 60% 32%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary - Soft Green Gray */
+    --secondary: 150 20% 95%;
+    --secondary-foreground: 152 60% 25%;
+
+    /* Muted - Light backgrounds */
+    --muted: 150 15% 96%;
+    --muted-foreground: 160 10% 45%;
+
+    /* Accent - Vibrant Green */
+    --accent: 152 70% 40%;
+    --accent-foreground: 0 0% 100%;
+
+    /* Status Colors */
+    --success: 152 60% 40%;
+    --success-foreground: 0 0% 100%;
+    --warning: 45 93% 47%;
+    --warning-foreground: 0 0% 10%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --info: 210 90% 50%;
+    --info-foreground: 0 0% 100%;
+
+    /* UI Elements */
+    --border: 150 15% 88%;
+    --input: 150 15% 88%;
+    --ring: 152 60% 32%;
+
+    --radius: 0.5rem;
+
+    /* Sidebar */
+    --sidebar-background: 152 60% 20%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 152 70% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 152 50% 25%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 152 40% 30%;
+    --sidebar-ring: 152 70% 50%;
+
+    /* Custom Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(152 60% 32%) 0%, hsl(152 70% 25%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(150 20% 98%) 100%);
+    --gradient-overlay: linear-gradient(180deg, hsla(0 0% 0% / 0.6) 0%, hsla(0 0% 0% / 0.3) 100%);
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px hsla(160 10% 15% / 0.05);
+    --shadow-md: 0 4px 6px hsla(160 10% 15% / 0.07), 0 2px 4px hsla(160 10% 15% / 0.05);
+    --shadow-lg: 0 10px 25px hsla(160 10% 15% / 0.1), 0 4px 10px hsla(160 10% 15% / 0.05);
+    --shadow-xl: 0 20px 40px hsla(160 10% 15% / 0.15);
+  }
+
+  .dark {
+    --background: 160 20% 8%;
+    --foreground: 0 0% 98%;
+
+    --card: 160 20% 10%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 160 20% 10%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 152 60% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 160 20% 15%;
+    --secondary-foreground: 0 0% 90%;
+
+    --muted: 160 15% 18%;
+    --muted-foreground: 160 10% 60%;
+
+    --accent: 152 70% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 160 15% 20%;
+    --input: 160 15% 20%;
+    --ring: 152 60% 45%;
+
+    --sidebar-background: 160 20% 6%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 152 60% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 160 20% 15%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 160 15% 20%;
+    --sidebar-ring: 152 60% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold tracking-tight;
+  }
+}
+
+@layer components {
+  /* Hero Section Styles */
+  .hero-gradient {
+    background: var(--gradient-hero);
+  }
+
+  .hero-overlay {
+    background: var(--gradient-overlay);
+  }
+
+  /* Card Styles */
+  .card-gradient {
+    background: var(--gradient-card);
+  }
+
+  /* Button Variants */
+  .btn-hero {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300;
+    @apply shadow-medium hover:shadow-elevated hover:-translate-y-0.5;
+  }
+
+  .btn-hero-outline {
+    @apply border-2 border-primary-foreground text-primary-foreground;
+    @apply hover:bg-primary-foreground hover:text-primary transition-all duration-300;
+  }
+
+  /* Status Badges */
+  .status-good {
+    @apply bg-success/10 text-success border border-success/20;
+  }
+
+  .status-warning {
+    @apply bg-warning/10 text-warning-foreground border border-warning/20;
+  }
+
+  .status-critical {
+    @apply bg-destructive/10 text-destructive border border-destructive/20;
+  }
+
+  /* Section Styles */
+  .section-padding {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+
+  .container-tight {
+    @apply max-w-5xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .container-wide {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Animations */
+  .animate-delay-100 { animation-delay: 100ms; }
+  .animate-delay-200 { animation-delay: 200ms; }
+  .animate-delay-300 { animation-delay: 300ms; }
+  .animate-delay-400 { animation-delay: 400ms; }
+  .animate-delay-500 { animation-delay: 500ms; }
+}
