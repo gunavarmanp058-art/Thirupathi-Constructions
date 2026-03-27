@@ -1,7 +1,8 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config();
 
-const pool = mysql.createPool({
+// Prioritize full URL strings if present (Railway standard)
+const connectionConfig = process.env.MYSQL_URL || process.env.MYSQL_PUBLIC_URL || {
     host: process.env.MYSQLHOST || process.env.DB_HOST || 'localhost',
     user: process.env.MYSQLUSER || process.env.DB_USER || 'root',
     password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || '',
@@ -10,6 +11,8 @@ const pool = mysql.createPool({
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
-});
+};
+
+const pool = mysql.createPool(connectionConfig);
 
 module.exports = pool;
