@@ -109,8 +109,15 @@ const seedAdmin = async () => {
 
 const startServer = async () => {
     try {
+        console.log(`[Startup] Attempting to connect to database at ${process.env.DB_HOST || 'localhost'}...`);
+        
+        // Check for common Render mistake: using localhost in production
+        if (process.env.RENDER && (!process.env.DB_HOST || process.env.DB_HOST === 'localhost')) {
+            console.warn('⚠️  WARNING: Using "localhost" as DB_HOST on Render. This will likely fail because Render does not run MySQL locally.');
+        }
+
         await pool.query('SELECT 1');
-        console.log('Database connected successfully');
+        console.log('✅ Database connected successfully');
 
         if (process.env.AUTO_SEED_ADMIN === 'true') {
             await seedAdmin();
@@ -121,8 +128,17 @@ const startServer = async () => {
             console.log(`http://localhost:${PORT}`);
         });
     } catch (err) {
-        console.error('Failed to start server:', err.message);
-        process.exit(1);
+        console.error('⚠️  WARNING: Could not connect to database on startup.');
+        console.error('Error Details:', err.message);
+        
+        console.log('---------------------------------------------------------');
+        console.log('🚀 SERVER STARTING ANYWAY (Graceful Mode)');
+        console.log('Note: API calls requiring a database will fail until DB_HOST is configured.');
+        console.log('---------------------------------------------------------');
+
+        server.listen(PORT, () => {
+            console.log(`Server is running on port ${PORT} (Database Offline)`);
+        });
     }
 };
 

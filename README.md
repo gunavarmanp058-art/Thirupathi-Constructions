@@ -96,3 +96,4 @@ This project consists of three main components:
 *   **CORS Issues**: Ensure the backend allows requests from the frontend origin.
 *   **Database Connection**: Check `backend/.env` credentials.
 *   **AI Service**: If the AI service is down, the backend will fallback to local rule-based logic.
+# Thirupathi-Constructions
