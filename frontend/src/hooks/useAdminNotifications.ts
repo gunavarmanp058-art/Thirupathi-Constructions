@@ -14,14 +14,14 @@ export interface EnquiryNotification {
 }
 
 const SOCKET_URL = "http://localhost:5001";
-
 export function useAdminNotifications() {
   const socketRef = useRef<Socket | null>(null);
   const [notifications, setNotifications] = useState<EnquiryNotification[]>([]);
   const [connected, setConnected] = useState(false);
 
   useEffect(() => {
-    const socket = io(SOCKET_URL, { transports: ["websocket", "polling"] });
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || window.location.origin.replace(':5173', ':5001');
+    const socket = io(API_BASE_URL, { transports: ["websocket", "polling"] });
     socketRef.current = socket;
 
     socket.on("connect", () => {

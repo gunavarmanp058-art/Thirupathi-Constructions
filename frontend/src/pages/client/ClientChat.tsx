@@ -56,7 +56,8 @@ const ClientChat = () => {
       return;
     }
 
-    const newSocket = io("http://localhost:5001");
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || window.location.origin.replace(':5173', ':5001');
+    const newSocket = io(API_BASE_URL);
     setSocket(newSocket);
 
     newSocket.on('connect', () => {
