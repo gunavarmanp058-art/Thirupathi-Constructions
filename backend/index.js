@@ -3,6 +3,8 @@ const { Server } = require('socket.io');
 const app = require('./src/app');
 const pool = require('./src/config/db');
 const bcrypt = require('bcryptjs');
+const fs = require('fs');
+const path = require('path');
 require('dotenv').config();
 
 const PORT = process.env.PORT || 5000;
@@ -107,17 +109,48 @@ const seedAdmin = async () => {
     }
 };
 
-const startServer = async () => {
+const initDb = async () => {
     try {
-        console.log(`[Startup] Attempting to connect to database at ${process.env.DB_HOST || 'localhost'}...`);
-        
-        // Check for common Render mistake: using localhost in production
-        if (process.env.RENDER && (!process.env.DB_HOST || process.env.DB_HOST === 'localhost')) {
-            console.warn('⚠️  WARNING: Using "localhost" as DB_HOST on Render. This will likely fail because Render does not run MySQL locally.');
+        const schemaPath = path.join(__dirname, 'schema.sql');
+        if (!fs.existsSync(schemaPath)) {
+            console.log('No schema.sql found, skipping initialization.');
+            return;
         }
 
+        const schema = fs.readFileSync(schemaPath, 'utf8');
+        // Split by semicolon and filter out empty strings and USE/CREATE DATABASE commands
+        const queries = schema
+            .split(';')
+            .map(q => q.trim())
+            .filter(q => q.length > 0 && !q.startsWith('USE') && !q.startsWith('CREATE DATABASE'));
+
+        console.log(`Starting Database Initialization (${queries.length} queries)...`);
+        
+        for (const query of queries) {
+            try {
+                await pool.query(query);
+            } catch (err) {
+                // Ignore "IF NOT EXISTS" related errors if they happen, but log others
+                if (!err.message.includes('already exists') && !err.message.includes('Duplicate')) {
+                    console.warn(`Query Warning: ${err.message}`);
+                }
+            }
+        }
+        console.log('✅ Database Schema initialized/verified.');
+    } catch (err) {
+        console.error('Error during database initialization:', err.message);
+    }
+};
+
+const startServer = async () => {
+    try {
+        console.log(`[Startup] Attempting to connect to database at ${process.env.MYSQLHOST || process.env.DB_HOST || 'localhost'}...`);
+        
         await pool.query('SELECT 1');
         console.log('✅ Database connected successfully');
+
+        // Auto-initialize schema
+        await initDb();
 
         if (process.env.AUTO_SEED_ADMIN === 'true') {
             await seedAdmin();
