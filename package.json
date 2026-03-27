@@ -1,0 +1,14 @@
+{
+  "name": "thirupathi-constructions-monorepo",
+  "version": "1.0.0",
+  "description": "Root redirector for Railway",
+  "main": "backend/index.js",
+  "scripts": {
+    "start": "cd backend && node index.js",
+    "preinstall": "cd backend && npm install",
+    "build": "echo 'No root build needed'"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
