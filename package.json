@@ -4,9 +4,12 @@
   "description": "Root redirector for Railway",
   "main": "backend/index.js",
   "scripts": {
-    "start": "cd backend && node index.js",
-    "build": "cd frontend && npm install && npm run build && cd ../backend && npm install",
-    "postinstall": "cd ai-service && pip install -r requirements.txt || echo 'python setup skipped'"
+    "start": "npx concurrently \"cd backend && node index.js\" \"cd ai-service && uvicorn main:app --host localhost --port 8000\"",
+    "build": "cd frontend && npm install && npm run build && cd ../backend && npm install && cd ../ai-service && pip install -r requirements.txt",
+    "postinstall": "echo 'Setup complete'"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.2"
   },
   "engines": {
     "node": ">=18"
