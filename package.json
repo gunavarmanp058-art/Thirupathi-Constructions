@@ -5,8 +5,8 @@
   "main": "backend/index.js",
   "scripts": {
     "start": "cd backend && node index.js",
-    "preinstall": "cd backend && npm install",
-    "build": "echo 'No root build needed'"
+    "build": "cd frontend && npm install && npm run build && cd ../backend && npm install",
+    "postinstall": "cd ai-service && pip install -r requirements.txt || echo 'python setup skipped'"
   },
   "engines": {
     "node": ">=18"

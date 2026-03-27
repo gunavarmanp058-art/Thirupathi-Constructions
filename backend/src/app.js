@@ -18,15 +18,21 @@ app.use(express.urlencoded({ extended: true }));
 // Serve uploads as static
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-// Routes
+// Roots
 app.use('/api/public', publicRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/client', clientRoutes);
 app.use('/api/admin', adminRoutes);
 
-// Root route
-app.get('/', (req, res) => {
-    res.json({ message: 'TN Construction API is running' });
+// --- FE-BE CONNECTION: Serving Frontend Static Files ---
+const frontendPath = path.join(__dirname, '../../frontend/dist');
+app.use(express.static(frontendPath));
+
+// Fallback all other routes to index.html (for React Router)
+app.get('*', (req, res, next) => {
+    // Only serve index.html if it's not an API call
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
 // Error Handler
